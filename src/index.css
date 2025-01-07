@@ -1,0 +1,22 @@
+body {
+  background-color: #5d6066;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+ 
+}
+
+.chats{
+  display: flex;
+  height: 600px;
+  width: 1300px;
+  background-color: rgb(0, 52, 157);
+  border-radius: 5px;
+}
+.loading{
+  padding: 50px;
+  font-size: 36px;
+  border-radius: 10px;
+  background-color: rgba(17, 25, 40, 0.9);
+}

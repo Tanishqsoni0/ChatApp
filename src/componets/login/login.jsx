@@ -1,25 +1,15 @@
 import "./login.css";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 import {toast} from "react-toastify"
-import {createUserWithEmailAndPassword,signInWithEmailAndPassword,} from "firebase/auth"
+import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth,db} from "../../firebase"
 import {doc,setDoc} from "firebase/firestore"
+import Chat from "../../assets/chat.png"
 
 const Login = () => {
-  const [avatar, setAvatar] = useState({
-    file: null,
-    url: "",
-  });
-  const [loading, setLoading] = useState(false);
 
-  const handleavatar = (e) => {
-    if (e.target.files[0]) {
-      setAvatar({
-        file: e.target.files[0],
-        url: URL.createObjectURL(e.target.files[0]),
-      });
-    }
-  };
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,68 +29,41 @@ const Login = () => {
     }
   };
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.target);
-
-    const { username, email, password } = Object.fromEntries(formData);
-    try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      await setDoc(doc(db, "users", res.user.uid), {
-        username,
-        email,
-        id: res.user.uid,
-        blocked: [],
-      });
-
-      await setDoc(doc(db, "userchats", res.user.uid), {
-        chats: [],
-      });
-
-      toast.success("Account created! You can login now!");
-    } catch (err) {
-      console.log(err);
-      toast.error(err.message);
-    }
-    finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="login">
-      <div className="item">
-        <h2>Welcome back</h2>
-        <form onSubmit={handleLogin}>
-          <input type="text" placeholder="Email" name="email" />
-          <input type="password" placeholder=" Password" name="password" />
-          <button className="signin">Sign In</button>
-        </form>
+    <>
+      <div className="login-page">
+        <div className="leftside">
+          <img className="IMG" alt="Img" src={Chat} />
+        </div>
+        <div className="login">
+          <p className="heading">Welcome back</p>
+          <form className="login-form" onSubmit={handleLogin}>
+            <input
+              className="email"
+              type="text"
+              placeholder="Email"
+              name="email"
+              required
+            />
+            <input
+              className="password"
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+            />
+            <button className="signin">Sign In</button>
+            <p className="text">
+              Don't Have an Account.
+              <br />
+              <Link className="register-link" to="/Register">
+                Register here
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
-      <div className="separator"></div>
-      <div className="item">
-        <h2>Create an Account</h2>
-        <form onSubmit={handleRegister}>
-          <label htmlFor="file">
-            <img src={avatar.url || "./avatar.png"} alt="" />
-            Upload an Image
-          </label>
-          <input
-            type="file"
-            id="file"
-            style={{ display: "none" }}
-            onChange={handleavatar}
-          />
-          <input type="text" placeholder="Username" name="username" />
-          <input type="text" placeholder="Email" name="email" />
-          <input type="password" placeholder=" Password" name="password" />
-          <button className="signin">Sign In</button>
-        </form>
-      </div>
-    </div>
+    </>
   );
 };
 

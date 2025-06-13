@@ -1,6 +1,5 @@
 import "./chat.css"
 import { useState,useEffect,useRef } from "react";
-import {auth} from "../../firebase"
 import {
   arrayUnion,
   doc,
@@ -35,72 +34,67 @@ const Chat = () => {
     };
   }, [chatId]);
   
-
-  const handleLogout = () => {
-    auth.signOut();
-    setChat();
-  };
-  
   const handleSend = async () => {
-    if (text === "") return;
-    try {
-      await updateDoc(doc(db, "chats", chatId), {
-        messages: arrayUnion({
-          senderId: currentUser.id,
-          text,
-          ccreatedAt: new Date(),
-        }),
-      });
-      const userIDs = [currentUser.id, user.id];
+  if (text === "") return;
 
-      userIDs.forEach(async (id) => {
-        const userChatsRef = doc(db, "userchats", id);
-        const userChatsSnapshot = await getDoc(userChatsRef);
+  const messageToSend = text;
+  setText("");
 
-        if (userChatsSnapshot.exists()) {
-          const userChatsData = userChatsSnapshot.data();
+  try {
+    await updateDoc(doc(db, "chats", chatId), {
+      messages: arrayUnion({
+        senderId: currentUser.id,
+        text: messageToSend,
+        createdAt: new Date(), // also fix "ccreatedAt" typo
+      }),
+    });
 
-          const chatIndex = userChatsData.chats.findIndex(
-            (c) => c.chatId === chatId
-          );
+    const userIDs = [currentUser.id, user.id];
 
+    for (const id of userIDs) {
+      const userChatsRef = doc(db, "userchats", id);
+      const userChatsSnapshot = await getDoc(userChatsRef);
+
+      if (userChatsSnapshot.exists()) {
+        const userChatsData = userChatsSnapshot.data();
+        const chatIndex = userChatsData.chats.findIndex(
+          (c) => c.chatId === chatId
+        );
+
+        if (chatIndex !== -1) {
           userChatsData.chats[chatIndex].lastMessage = text;
-          userChatsData.chats[chatIndex].isSeen =
-            id === currentUser.id ? true : false;
+          userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false;
           userChatsData.chats[chatIndex].updatedAt = Date.now();
 
           await updateDoc(userChatsRef, {
             chats: userChatsData.chats,
           });
         }
-      });
-    } catch (err) {
-      console.log(err);
-    } finally {
-      console.log("done");
-      setText("");
-      console.log("not done");
+      }
     }
-  };
+  } catch (err) {
+    console.log(err);
+  } /*finally {
+    setText(""); // Now this should reliably work
+  }*/
+};
+
 
   return (
     <div className="chat">
       <div className="top">
-        <div className="user">
+        <div className="receiver">
           <img src={user?.avatar || "./avatar.png"} alt="" />
-          <div className="texts">
+          <div className="receiver-info">
             <span>{user?.username}</span>
             <p>Lorem ipsum dolor, sit amet.</p>
           </div>
         </div>
-        <div className="icons">
+        <div className="receiver-icons">
           <img src="./phone.png" alt="" />
           <img src="./video.png" alt="" />
           <img src="./mic.png" alt="" />
         </div>
-        <button className="logout" onClick={handleLogout}>
-          Log Out
-        </button>
       </div>
       <div className="center">
         {chat?.messages?.map((message) => (
@@ -108,25 +102,31 @@ const Chat = () => {
             className={
               message.senderId === currentUser?.id ? "message-own" : "message"
             }
-            key={message?.createAt}>
-            <div className="texts">
-              <p>{message.text}</p>
-              {/* <span>{message}</span> */}
-            </div>
+            key={message?.createAt}
+          >
+            <p>{message.text}</p>
+            {/* <span>{message}</span> */}
           </div>
         ))}
         <div ref={endRef}></div>
       </div>
       <div className="bottom">
-        <div className="icons"></div>
+        {/* <div className="icons"></div> */}
         <input
           type="text"
+          value={text}
           className="message-box"
           placeholder="Type a message..."
           onChange={(e) => setText(e.target.value)}
+          onKeyDown={(e) =>{
+            if(e.key === "Enter"){
+              e.preventDefault();
+              handleSend();
+            }
+          }}
         />
         <button className="sendButton" onClick={handleSend}>
-          Send
+          <img src="./message.png" alt="" />
         </button>
       </div>
     </div>

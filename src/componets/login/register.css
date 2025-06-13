@@ -1,4 +1,4 @@
-.login-page{
+.register-page{
   display: flex;
   height: 450px;
   width: 800px;
@@ -15,7 +15,7 @@
   width: 450px;
   height: 450px;
 }
-.login{
+.register{
   width: 50%;
   height: 100%;
   display: flex;
@@ -24,14 +24,27 @@
   gap: 10px;
   padding-top: 30px;
 }
-.login-form{
+.register-form{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 17px;
 }
-.email, .password{
+.avatar{
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.img-label{
+  align-items: center;
+  justify-items: center;
+  display: flex;
+  font-size: 14px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 500;
+}
+.email, .password, .username{
   border-radius: 5px;
   width: 250px;
   height: 30px;
@@ -49,7 +62,10 @@
 .password::placeholder{
   color: #2f184bbd;
 }
-.signin{
+.username::placeholder{
+  color: #2f184bbd;
+}
+.signup{
   font-family: "Roboto Slab", serif;
   font-weight: 400;
   width: 70px;
@@ -65,14 +81,16 @@
   font-weight: 700;
   font-family: "Roboto Slab", serif;
   color: #2f184b;
+  margin-bottom: 10px;
 }
-.text{
+.text1{
   font-family: "Roboto Slab", serif;
   font-weight: 600;
   color: #2f184b;
   text-align: center;
+  margin-top: 0px;
 }
-.register-link{
+.login-link{
   color: #2f184b;
   text-decoration: none;
 }

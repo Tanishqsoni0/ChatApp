@@ -81,7 +81,7 @@ const Adduser = () => {
         <button>Search</button>
       </form>
       {user && (
-        <div className="user">
+        <div className="user-to-add">
           <div className="detail">
             <img src={user.avatr || "./avatar.png"} alt="" />
             <span>{user.username}</span>

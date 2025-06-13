@@ -1,6 +1,6 @@
 import './Chatlist.css'
 import Adduser from '../../addUser/adduser'
-import { useEffect, useState } from 'react';
+import { useRef,useEffect, useState } from 'react';
 import { useUserStore } from '../../../userStore';
 import { doc, getDoc,updateDoc,onSnapshot } from 'firebase/firestore';
 import { db } from "../../../firebase"
@@ -13,6 +13,24 @@ const Chatlist = () => {
   const [input, setInput] = useState("");
   const {currentUser}=useUserStore();
   const {changeChat} = useChatStore();
+  const [isNarrow, setIsNarrow] = useState(false);
+  const boxRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(([entry]) => {
+      setIsNarrow(entry.contentRect.width < 500);
+    });
+
+    if (boxRef.current) {
+      observer.observe(boxRef.current);
+    }
+
+    return () => {
+      if (boxRef.current) {
+        observer.unobserve(boxRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const unSub = onSnapshot(doc(db, "userchats", currentUser.id),async (res) => {
@@ -66,23 +84,25 @@ const Chatlist = () => {
   );
 
   return (
-    <div className="chatlist">
+    <div ref={boxRef} className="chatlist" style={{
+        borderBottomRightRadius: isNarrow ? "0px" : "12px"
+      }} >
       <div className="search">
         <div className="searchBar">
-          <img src="/search.png" alt="" />
-          <input type="text" placeholder="Search" onChange={(e)=>setInput(e.target.value)}/>
+          <img className='search-img' src="/search.png" alt="" />
+          <input className='search-input' type="text" placeholder="Search" onChange={(e)=>setInput(e.target.value)}/>
+          <img I
+            src={addMode ? "./minus.png": "./plus.png"}
+            alt=""
+            className="add"
+            onClick={() => setAddMode((prev) => !prev)}
+          />
         </div>
-        <img I
-          src={addMode ? "./minus.png": "./plus.png"}
-          alt=""
-          className="add"
-          onClick={() => setAddMode((prev) => !prev)}
-        />
       </div>
       {filteredChats.map((chat)=>(
-        <div className="item" key={chat.chatId} onClick={()=>handleSelect(chat)} style={{backgroundColor: chat?.isSeen ?"transparent": 'lightblue' }}>
+        <div className="other-users" key={chat.chatId} onClick={()=>handleSelect(chat)} style={{backgroundColor: chat?.isSeen ?"": 'lightblue' }}>
           <img src={chat.user.avatar || './avatar.png'} alt=""/>
-          <div className="texts">
+          <div className="other-user-name">
             <span>{chat.user.username}</span>
             <p>
               {chat.lastMessage}

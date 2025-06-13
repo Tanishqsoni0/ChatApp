@@ -1,15 +1,20 @@
 .chat{
   flex: 4.5;
-  border-left:  1px solid #dddddd35;
+  display: flex;
+  flex-direction: column;
+  border-left:  2px solid #13002b;
   height: 100%;
   position: relative;
 }
 .top{
-  padding: 20px;
+  padding: 10px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #dddddd35;
+  background-color: #2f184b ;
+  color: #f7ebfd;
+  border-top-right-radius: 12px;
 }
 .logout{
   height: 30px;
@@ -17,54 +22,117 @@
   background-color: rgb(17, 25, 40);
   color: white;
   border-radius: 5px;
+  font-family: "Roboto Slab", serif;
+  cursor: pointer;
 }
-.user{
+.receiver{
+  display: flex;
+  align-items: center;
+  /* gap: 20px; */
+}
+.receiver img{
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+.receiver-info{
+  display: flex;
+  flex-direction: column;
+  font-family: "Roboto Slab", serif;
+}
+.receiver-info span{
+  font-size: 15px;
+  font-weight: 400;
+}
+.receiver-info p{
+font-size: 10px;
+font-weight: 300;
+margin: 0px;
+}
+.receiver-icons{
   display: flex;
   align-items: center;
   gap: 20px;
 }
-.user img{
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.texts{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-span{
-  font-size: 18px;
-  font-weight: bold;
-}
-p{
-font-size: 14px;
-font-weight: 300;
-}
-.icons{
-  display: flex;
-  gap: 20px;
-}
-.icons img{
+.receiver-icons img{
   width: 20px;
   height: 20px;
+}
+.center{
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #f7ebfd;  */
+  background-image: url("../../assets/chatback.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 12px 12px 0px 12px;
+  scrollbar-width: none;  
+}
+.message{
+  background-color: #2f184b;
+  color: #f7ebfd;
+  display: flex;
+  min-height: 35px;
+  width:fit-content;
+  max-width: 400px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
+  
+}
+.message-own{
+  background-color: rgb(255, 255, 255);
+  color: #2f184b;
+  width: fit-content;
+  max-width: 400px;
+  min-height: 35px;
+  align-self: flex-end;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.message p{
+  margin: 8px 0px 8px 0px;
+  max-width: 400px;      
+  word-wrap: break-word; /* allows long words to break */
+  overflow-wrap: break-word; /*recommended newer syntax*/
+  white-space: normal;   /* allow wrapping */
+  overflow: visible;
+  font-size: 14px;
+  font-weight: 300;
+}
+.message-own p{
+  margin: 8px 0px 8px 0px;
+  max-width: 400px;      
+  word-wrap: break-word; /* allows long words to break */
+  overflow-wrap: break-word; /*recommended newer syntax*/
+  white-space: normal;   /* allow wrapping */
+  overflow: visible;
+  font-size: 14px;
+  font-weight: 400;
 }
 .bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid ☐ #dddddd35;
-  position:absolute;
-  bottom: 0px;
+  height: 50px;
+  background-color: #2f184b ;
+  color: #f7ebfd;
+  padding-right: 10px;
 }
 
 /* .icons {
   display: flex;
   gap: 20px;
-}
+} */
 
-.bottom img {
+/* .bottom img {
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -72,50 +140,23 @@ font-weight: 300;
 
 
 .message-box{
-  width: 730px;
   height: 45px;
+  flex: 1;
   background-color: transparent;
+  font-family: "Roboto Slab", serif;
   border: none;
   outline: none;
-  color: black;
+  color: #f7ebfd;
   padding-left: 20px;
 }
+.message-box::placeholder{
+  color: #f7ebfdb2;
+}
 .sendButton{
-  align-self: flex-end;
-  width: 60px;
-  height: 40px;
-  border-color: transparent;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  color: white;
-  background-color: rgb(17, 25, 40);
+  border: none;
+  background-color: transparent;
   cursor: pointer;
 }
-.center{
-  flex: 1;
-  overflow: scroll;
-  display: flex;
-  flex-direction: column;
-  height: 390px;
-  
-}
-.message{
-  background-color: rgb(0, 166, 255);
-  color: rgb(0, 0, 0);
-  width: 400px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
-}
-.message-own{
- 
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  width: 400px;
-  align-self: flex-end;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding-right: 5px;
-  padding-left: 5px;
+.sendButton img{
+  width: 23px;
 }

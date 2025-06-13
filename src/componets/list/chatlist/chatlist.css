@@ -1,18 +1,27 @@
 .chatlist {
   flex: 1;
-  overflow: scroll;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* background-color: #f7ebfd; */
+  background-image: url("../../../assets/chatback.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 0px 20px 0px 20px;
 }
-
 .search {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0px 20px 0px;
 }
 
 .searchBar {
   flex: 1;
-  background-color: rgba(17, 25, 40, 0.5);
+  height: 25px;
+  background-color: #2f184b;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -20,39 +29,64 @@
   padding: 10px;
 }
 
-.searchBar input {
+.search-input {
   background-color: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: #f7ebfd;
+  font-family: "Roboto Slab", serif;
+  font-size: 16px;
   flex: 1
 }
+.search-input::placeholder{
+  color:#f7ebfd ;
+}
 
-.searchbar img {
+.search-img{
   width: 20px;
   height: 20px;
 }
+.add{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
 
-.list {
+/* .list {
   display: flex;
   gap: 20px;
   padding: 20px;
   cursor: pointer;
   border-bottom: 1px solid #dddddd35;
+} */
+.other-users{
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
 }
-
-.list img {
-  width: 30px;
-  height: 30px;
+.other-users:hover{
+  background-color: #c7bccc; 
+}
+.other-users img {
+  width: 50px;
+  height: 50px;
+  margin-right: 13px;
   border-radius: 50%;
   object-fit: cover;
 }
-
-.list text span {
+.other-user-name span {
   font-weight: 500;
+  font-family: "Roboto Slab", serif;
+  font-size: 18px;
 }
 
-.list text p {
-  font-size: 14px;
-  font-weight: 300;
+.other-user-name p {
+  font-family: "Roboto Slab", serif;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 7px 0px 7px 0px;
 }

@@ -114,7 +114,7 @@ const Chatlist = () => {
           />
         </div>
       </div>
-      {/* {loading ? (
+      {loading ? (
         <div className="spinner">Loading chats...</div>
       ) : (
         filteredChats.map((chat) => (
@@ -122,7 +122,7 @@ const Chatlist = () => {
             className="other-users"
             key={chat.chatId}
             onClick={() => handleSelect(chat)}
-            style={{ backgroundColor: chat?.isSeen ? "" : "lightblue" }}
+            style={{ backgroundColor: chat?.isSeen ? "" : "#eabffab8" }}
           >
             <img src={chat.user.avatar || "./avatar.png"} alt="" />
             <div className="other-user-name">
@@ -131,19 +131,7 @@ const Chatlist = () => {
             </div>
           </div>
         ))
-      )} */}
-
-      {filteredChats.map((chat)=>(
-        <div className="other-users" key={chat.chatId} onClick={()=>handleSelect(chat)} style={{backgroundColor: chat?.isSeen ?"": 'lightblue' }}>
-          <img src={chat.user.avatar || './avatar.png'} alt=""/>
-          <div className="other-user-name">
-            <span>{chat.user.username}</span>
-            <p>
-              {chat.lastMessage}
-            </p>
-          </div>
-        </div>
-      ))}
+      )}
       {addMode && <Adduser />}
     </div>
   );

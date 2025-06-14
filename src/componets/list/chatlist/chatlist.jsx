@@ -1,4 +1,4 @@
-import './Chatlist.css'
+import './chatlist.css'
 import Adduser from '../../addUser/adduser'
 import { useRef,useEffect, useState } from 'react';
 import { useUserStore } from '../../../userStore';

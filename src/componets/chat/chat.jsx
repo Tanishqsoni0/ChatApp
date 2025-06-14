@@ -45,7 +45,7 @@ const Chat = () => {
       messages: arrayUnion({
         senderId: currentUser.id,
         text: messageToSend,
-        createdAt: new Date(), // also fix "ccreatedAt" typo
+        createdAt: new Date(),
       }),
     });
 
@@ -75,7 +75,7 @@ const Chat = () => {
   } catch (err) {
     console.log(err);
   } /*finally {
-    setText(""); // Now this should reliably work
+    setText("");
   }*/
 };
 

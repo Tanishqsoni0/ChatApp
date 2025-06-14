@@ -15,6 +15,7 @@ const Chatlist = () => {
   const {changeChat} = useChatStore();
   const [isNarrow, setIsNarrow] = useState(false);
   const boxRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const observer = new ResizeObserver(([entry]) => {
@@ -33,7 +34,10 @@ const Chatlist = () => {
   }, []);
 
   useEffect(() => {
-    const unSub = onSnapshot(doc(db, "userchats", currentUser.id),async (res) => {
+    const unSub = onSnapshot(
+      doc(db, "userchats", currentUser.id),
+      async (res) => {
+        setLoading(true);
         const items = res.data().chats;
 
         const promises = items.map(async (item) => {
@@ -48,12 +52,13 @@ const Chatlist = () => {
         const chatData = await Promise.all(promises);
 
         setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+        setLoading(false);
       }
     );
-    return ()=>{
-      unSub()
-    }
-  },[currentUser.id])
+    return () => {
+      unSub();
+    };
+  }, [currentUser.id]);
   
   const handleSelect = async (chat) => {
     const userChats = chats.map((item) => {
@@ -84,21 +89,50 @@ const Chatlist = () => {
   );
 
   return (
-    <div ref={boxRef} className="chatlist" style={{
-        borderBottomRightRadius: isNarrow ? "0px" : "12px"
-      }} >
+    <div
+      ref={boxRef}
+      className="chatlist"
+      style={{
+        borderBottomRightRadius: isNarrow ? "0px" : "12px",
+      }}
+    >
       <div className="search">
         <div className="searchBar">
-          <img className='search-img' src="/search.png" alt="" />
-          <input className='search-input' type="text" placeholder="Search" onChange={(e)=>setInput(e.target.value)}/>
-          <img I
-            src={addMode ? "./minus.png": "./plus.png"}
+          <img className="search-img" src="/search.png" alt="" />
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search"
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <img
+            I
+            src={addMode ? "./minus.png" : "./plus.png"}
             alt=""
             className="add"
             onClick={() => setAddMode((prev) => !prev)}
           />
         </div>
       </div>
+      {/* {loading ? (
+        <div className="spinner">Loading chats...</div>
+      ) : (
+        filteredChats.map((chat) => (
+          <div
+            className="other-users"
+            key={chat.chatId}
+            onClick={() => handleSelect(chat)}
+            style={{ backgroundColor: chat?.isSeen ? "" : "lightblue" }}
+          >
+            <img src={chat.user.avatar || "./avatar.png"} alt="" />
+            <div className="other-user-name">
+              <span>{chat.user.username}</span>
+              <p>{chat.lastMessage}</p>
+            </div>
+          </div>
+        ))
+      )} */}
+
       {filteredChats.map((chat)=>(
         <div className="other-users" key={chat.chatId} onClick={()=>handleSelect(chat)} style={{backgroundColor: chat?.isSeen ?"": 'lightblue' }}>
           <img src={chat.user.avatar || './avatar.png'} alt=""/>
@@ -110,7 +144,7 @@ const Chatlist = () => {
           </div>
         </div>
       ))}
-      {addMode && <Adduser/>}
+      {addMode && <Adduser />}
     </div>
   );
 };

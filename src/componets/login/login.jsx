@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import {toast} from "react-toastify"
 import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth,db} from "../../firebase"
-import {doc,setDoc} from "firebase/firestore"
 import Chat from "../../assets/chat.png"
 
 const Login = () => {
